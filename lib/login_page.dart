@@ -2,6 +2,7 @@ import 'package:action_slider/action_slider.dart';
 import 'package:auth_employee/Firebase_Services.dart';
 import 'package:auth_employee/my_home_page.dart';
 import 'package:auth_employee/screen/admin_info_page.dart';
+import 'package:auth_employee/style/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -19,65 +20,65 @@ class _LoginpageState extends State<Loginpage> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
         child: Scaffold(
+          backgroundColor: Color(0xff6096B4),
             body: Center(
-                child: Stack(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          color: Colors.blueAccent.shade100,
-        ),
-        Lottie.network(
-            "https://assets10.lottiefiles.com/packages/lf20_coahzstz.json",
-            alignment: Alignment.centerRight,
-            height: height,
-            width: width * .70),
-        // Image.asset("assets/homepage.png", fit: BoxFit.cover, height: height,),
-        const SizedBox(
-          height: 0,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 400.0),
-          child: Center(
-            child: ActionSlider.standard(
-              width: 300.0,
-              icon: const Icon(
-                Icons.done,
-              ),
-              child: const Text('Slide To Confirm'),
-              action: (controller) async {
-                controller.loading();
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const MyHomePage()));
-                // await Future.delayed(const Duration(seconds: 3));
-                // await Firebase_Serv.signInWithGoogle().then((value) async {
-                //   controller.success();
-                //   await Future.delayed(const Duration(seconds: 1));
-                //
-                //   await Firebase_Serv.checkif_admin_is_registered(
-                //           value.user!.uid)
-                //       .then((value) {
-                //     if (value == true) {
-                //       Navigator.pushReplacement(
-                //           context,
-                //           MaterialPageRoute(
-                //               builder: (context) => const MyHomePage()));
-                //     } else {
-                //       //go to forms to take admin info
-                //       Navigator.pushReplacement(
-                //           context,
-                //           MaterialPageRoute(
-                //               builder: (context) => const Admin_info_page()));
-                //     }
-                //   });
-                // });
-              },
-            ),
-          ),
-        ),
-      ],
-    ))));
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.network(
+                        "https://assets10.lottiefiles.com/packages/lf20_coahzstz.json",
+                        alignment: Alignment.centerRight,
+                        // height: height,
+                        width: width * .70),
+                    // Image.asset("assets/homepage.png", fit: BoxFit.cover, height: height,),
+                    const SizedBox(
+                      height: 0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0.0),
+                      child: Center(
+                        child: ActionSlider.standard(
+                          width: 350.0,
+                          backgroundColor: Color(0xffEEE9DA),
+                          icon: const Icon(
+                            Icons.login,
+                            color: Colors.white,
+                          ),
+                          child: const Text('Continue with google', style: anuphan),
+                          action: (controller) async {
+                            controller.loading();
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MyHomePage()));
+                            // await Future.delayed(const Duration(seconds: 3));
+                            // await Firebase_Serv.signInWithGoogle().then((value) async {
+                            //   controller.success();
+                            //   await Future.delayed(const Duration(seconds: 1));
+                            //
+                            //   await Firebase_Serv.checkif_admin_is_registered(
+                            //           value.user!.uid)
+                            //       .then((value) {
+                            //     if (value == true) {
+                            //       Navigator.pushReplacement(
+                            //           context,
+                            //           MaterialPageRoute(
+                            //               builder: (context) => const MyHomePage()));
+                            //     } else {
+                            //       //go to forms to take admin info
+                            //       Navigator.pushReplacement(
+                            //           context,
+                            //           MaterialPageRoute(
+                            //               builder: (context) => const Admin_info_page()));
+                            //     }
+                            //   });
+                            // });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ))));
   }
 }
 

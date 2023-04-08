@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:auth_employee/Firebase_Services.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,26 +19,6 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _experticeController = TextEditingController();
   final TextEditingController _pancardController = TextEditingController();
 
-  File? img;
-  final ImagePicker _picker = ImagePicker();
-  Future imgFromGallery() async {
-    await Permission.photos.request();
-    var permissionstatus = await Permission.photos.status;
-
-    if (permissionstatus.isGranted) {
-      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        if (pickedFile != null) {
-          img = File(pickedFile.path);
-        } else {
-          print('No image selected.');
-        }
-      });
-    } else {
-      print('Grant Permission and try again');
-    }
-  }
-
   void clearcontroller() {
     _nameController.clear();
     _adharController.clear();
@@ -48,7 +27,6 @@ class _HomePageState extends State<HomePage> {
     _pancardController.clear();
   }
 
-  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
