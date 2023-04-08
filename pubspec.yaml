@@ -93,6 +93,10 @@ flutter:
     - family: Alkatra
       fonts:
         - asset: fonts/Alkatra-VariableFont_wght.ttf
+
+    - family: Noto
+      fonts:
+        - asset: fonts/NotoSerifKhojki-VariableFont_wght.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
