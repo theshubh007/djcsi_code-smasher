@@ -1,7 +1,5 @@
 import 'package:auth_employee/login_page.dart';
 import 'package:auth_employee/my_home_page.dart';
-import 'package:auth_employee/screen/home_page.dart';
-import 'package:auth_employee/screen/list_of_employee.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +16,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color(0xffC9D6DF)
-      ),
+        theme: ThemeData(primaryColor: const Color(0xffC9D6DF)),
         debugShowCheckedModeBanner: false,
-        // home: FirebaseAuth.instance.currentUser == null
-        //     ? const Loginpage()
-        //     : const MyHomePage()
-        // 
-        home: MyHomePage(),);
+        home: FirebaseAuth.instance.currentUser == null
+            ? const Loginpage()
+            : const MyHomePage()
+        //
+        // home: const MyHomePage(),
+        );
   }
 }

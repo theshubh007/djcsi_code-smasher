@@ -18,7 +18,17 @@ class _ListOfEmployeeState extends State<ListOfEmployee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff6096B4),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 30),
+        ),
+        backgroundColor: Colors.transparent,
+        title: const Text('List of Your Employees'),
+      ),
+      backgroundColor: const Color(0xff191a1f),
       body: SafeArea(
           child: FutureBuilder(
               future: FirebaseFirestore.instance
@@ -36,99 +46,284 @@ class _ListOfEmployeeState extends State<ListOfEmployee> {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                            child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    documentSnapshot['name'],
-                                    style: const TextStyle(fontSize: 24),
-                                  ),
-                                  Text(documentSnapshot['adharcard_num']),
-                                ],
-                              ),
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: const Color(0xff31343b),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            IconButton(
-                              onPressed: () {
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    backgroundColor: const Color(0xffFFFFFF),
-                                    title: const Text(
-                                      'Enter your Feedback for employee',
-                                      style: TextStyle(fontSize: 25),
-                                    ),
-                                    content: Form(
-                                        key: formkey,
-                                        child: TextFormField(
-                                          controller: reasonController,
-                                          maxLines: 46,
-                                          minLines: 6,
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.only(
-                                                    left: 16,
-                                                    top: 12,
-                                                    bottom: 12,
-                                                    right: 16),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(9.00),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            hintText:
-                                                "Enter here your feedback",
-                                          ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 14, vertical: 4),
+                                        child: Text(
+                                          documentSnapshot['name'],
                                           style: const TextStyle(
-                                            fontSize: 15.0,
-                                          ),
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please nter some text';
-                                            }
-                                            return null;
-                                          },
-                                        )),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel'),
+                                              fontSize: 24,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
-                                      TextButton(
-                                        onPressed: () async {},
-                                        child: const Text('OK'),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 14, vertical: 0),
+                                        child: Text(
+                                            documentSnapshot['adharcard_num'],
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white)),
                                       ),
                                     ],
                                   ),
-                                );
-                              },
-                              icon: const Icon(Icons.flag),
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Employee_details(
-                                                eid: documentSnapshot[
-                                                    'adharcard_num'],
-                                              )));
-                                },
-                                icon: const Icon(
-                                  Icons.near_me,
-                                  color: Colors.grey,
-                                ))
-                          ],
-                        )),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 14, vertical: 0),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            var selectvalue = 1;
+                                            return StatefulBuilder(builder:
+                                                (BuildContext context,
+                                                    setState) {
+                                              return AlertDialog(
+                                                backgroundColor: Colors.white,
+                                                title: const Text(
+                                                  'Enter your Feedback for employee',
+                                                  style:
+                                                      TextStyle(fontSize: 25),
+                                                ),
+                                                content: Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 300,
+                                                      height: 80,
+                                                      child:
+                                                          DropdownButton<int>(
+                                                        value: selectvalue,
+                                                        onChanged:
+                                                            (int? newValue) {
+                                                          setState(() {
+                                                            selectvalue =
+                                                                newValue!;
+                                                          });
+                                                        },
+                                                        items: [
+                                                          DropdownMenuItem<int>(
+                                                            value: 1,
+                                                            child: Row(
+                                                              children: const [
+                                                                Icon(Icons.flag,
+                                                                    color: Colors
+                                                                        .red,
+                                                                    size: 50),
+                                                                Text(
+                                                                  'criminal record',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          DropdownMenuItem<int>(
+                                                            value: 2,
+                                                            child: Row(
+                                                              children: const [
+                                                                Icon(Icons.flag,
+                                                                    color: Colors
+                                                                        .orange,
+                                                                    size: 50),
+                                                                Text(
+                                                                  'bad behaviour',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          DropdownMenuItem<int>(
+                                                            value: 3,
+                                                            child: Row(
+                                                              children: const [
+                                                                Icon(Icons.flag,
+                                                                    color: Colors
+                                                                        .yellow,
+                                                                    size: 50),
+                                                                Text(
+                                                                  'bad performance',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          DropdownMenuItem<int>(
+                                                            value: 4,
+                                                            child: Row(
+                                                              children: const [
+                                                                Icon(Icons.flag,
+                                                                    color: Colors
+                                                                        .green,
+                                                                    size: 50),
+                                                                Text(
+                                                                  'very punctual',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    // RatingBar.builder(
+                                                    //   initialRating: 0,
+                                                    //   itemCount: 4,
+                                                    //   itemBuilder:
+                                                    //       (context, index) {
+                                                    //     switch (index) {
+                                                    //       case 0:
+                                                    //         return const Icon(
+                                                    //           Icons.flag,
+                                                    //           color: Colors.red,
+                                                    //         );
+                                                    //       case 1:
+                                                    //         return const Icon(
+                                                    //           Icons.flag,
+                                                    //           color:
+                                                    //               Colors.orange,
+                                                    //         );
+                                                    //       case 2:
+                                                    //         return const Icon(
+                                                    //           Icons.flag,
+                                                    //           color:
+                                                    //               Colors.yellow,
+                                                    //         );
+                                                    //       case 3:
+                                                    //         return const Icon(
+                                                    //           Icons.flag,
+                                                    //           color:
+                                                    //               Colors.green,
+                                                    //         );
+                                                    //       default:
+                                                    //         return const Icon(
+                                                    //           Icons.flag,
+                                                    //           color:
+                                                    //               Colors.green,
+                                                    //         );
+                                                    //     }
+                                                    //   },
+                                                    //   onRatingUpdate: (rating) {
+                                                    //     print(rating);
+                                                    //   },
+                                                    // ),
+                                                    Form(
+                                                        key: formkey,
+                                                        child: TextFormField(
+                                                          controller:
+                                                              reasonController,
+                                                          maxLines: 46,
+                                                          minLines: 6,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            contentPadding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16,
+                                                                    top: 12,
+                                                                    bottom: 12,
+                                                                    right: 16),
+                                                            border:
+                                                                OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          9.00),
+                                                            ),
+                                                            enabledBorder:
+                                                                OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                            ),
+                                                            hintText:
+                                                                "Enter here your feedback",
+                                                          ),
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 15.0,
+                                                          ),
+                                                          validator: (value) {
+                                                            if (value == null ||
+                                                                value.isEmpty) {
+                                                              return 'Please nter some text';
+                                                            }
+                                                            return null;
+                                                          },
+                                                        )),
+                                                  ],
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'Cancel'),
+                                                    child: const Text('Cancel'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () async {},
+                                                    child: const Text('OK'),
+                                                  ),
+                                                ],
+                                              );
+                                            });
+                                          });
+                                    },
+                                    icon: const Icon(
+                                      Icons.flag,
+                                      color: Color(
+                                        0xff18acb3,
+                                      ),
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 0),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Employee_details(
+                                                      eid: documentSnapshot[
+                                                          'adharcard_num'],
+                                                      ename: documentSnapshot[
+                                                          'name'],
+                                                    )));
+                                      },
+                                      icon: const Icon(
+                                        Icons.near_me,
+                                        color: Colors.grey,
+                                        size: 30,
+                                      )),
+                                )
+                              ],
+                            )),
                       );
                       // return ListTile(
                       //   title: Text(documentSnapshot['name']),

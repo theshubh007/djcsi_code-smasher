@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class Employee_details extends StatefulWidget {
   String eid;
-  Employee_details({required this.eid, super.key});
+  String ename;
+  Employee_details({required this.eid, required this.ename, super.key});
 
   @override
   State<Employee_details> createState() => _Employee_detailsState();
@@ -21,37 +20,89 @@ class _Employee_detailsState extends State<Employee_details> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back, color: Colors.white, size: 30),
+          ),
+          backgroundColor: Colors.transparent,
+          title: Text('${widget.ename} Details'),
+        ),
+        backgroundColor: const Color(0xff191a1f),
         body: SafeArea(
             child: Column(
-      children: [
-        FutureBuilder(
-            future: allemployeehubref
-                .doc(widget.eid)
-                .collection('Experience')
-                .get(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot documentSnapshot =
-                        snapshot.data!.docs[index];
-                    return ListTile(
-                      title: Text(documentSnapshot['org_name']),
-                      subtitle: Column(
-                        children: [
-                          Text(documentSnapshot['rating']),
-                          Text(documentSnapshot['reason']),
-                        ],
-                      ),
-                     
-                    );
-                  },
-                );
-              }
-              return const Text("No Past Experience");
-            })
-      ],
-    )));
+          children: [
+            Text(widget.eid),
+            FutureBuilder(
+                future: allemployeehubref
+                    .doc(widget.eid)
+                    .collection('Experience')
+                    .get(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          var rating = snapshot.data!.docs[index]['rating'];
+                          return ListTile(
+                            tileColor: const Color(0xff31343b),
+                            title: Text(
+                              snapshot.data!.docs[index]['org_name'],
+                              style: const TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const Text("Feedback from employer",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color(0xff18939b))),
+                                Text(snapshot.data!.docs[index]['reason'],
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.white)),
+                                SizedBox(
+                                    height: 50,
+                                    child: rating == 1
+                                        ? const Icon(
+                                            Icons.flag,
+                                            color: Colors.red,
+                                            size: 30,
+                                          )
+                                        : rating == 2
+                                            ? const Icon(
+                                                Icons.flag,
+                                                color: Colors.orange,
+                                                size: 30,
+                                              )
+                                            : rating == 3
+                                                ? const Icon(
+                                                    Icons.flag,
+                                                    color: Colors.yellow,
+                                                    size: 30,
+                                                  )
+                                                : const Icon(
+                                                    Icons.flag,
+                                                    color: Colors.green,
+                                                    size: 30,
+                                                  ))
+                              ],
+                            ),
+                          );
+                        });
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                }),
+          ],
+        )));
   }
 }
