@@ -40,9 +40,12 @@ class _LoginpageState extends State<Loginpage> {
                     child: ActionSlider.standard(
                       width: 350.0,
                       backgroundColor: const Color(0xffEEE9DA),
-                      icon: const Icon(
-                        Icons.login,
-                        color: Colors.white,
+                      icon: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white, // set the background color here
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.asset('assets/google.png'),
                       ),
                       child: const Text('Continue with google', style: anuphan),
                       action: (controller) async {

@@ -71,6 +71,7 @@ flutter:
   assets:
     - assets/
     - assets/aadharCard.png
+    - assets/google.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -92,8 +93,8 @@ flutter:
     - family: Anuphan
       fonts:
         - asset: fonts/Anuphan-VariableFont_wght.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
 
     - family: Alkatra
       fonts:
