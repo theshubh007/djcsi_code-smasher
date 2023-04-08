@@ -3,37 +3,59 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Firebase_Serv {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-  final adminhubref = FirebaseFirestore.instance.collection('Adminhub');
- 
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final GoogleSignIn googleSignIn = GoogleSignIn();
+  static final adminhubref = FirebaseFirestore.instance.collection('Adminhub');
 
-  Future<bool> checkif_admin_is_registered(String uid) async {
-    User? user = _auth.currentUser;
-    await adminhubref.doc(user!.uid).get().then((snap) {
+  static Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
-      if (snap['admin_name'] != null) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    UserCredential cred =
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
-    return false;
+    return cred;
   }
 
-  Future<void> uploadadmininfo() async {
+  static Future<void> add_Admin_uid() async {
     User? user = _auth.currentUser;
     await adminhubref.doc(user!.uid).set({
-      'admin_name': 'dhrumit',
-      "org_name": "xyzorg",
+      'admin_uid': user.uid,
+      'admin_name': '',
     });
+  }
+
+  static Future<bool> checkif_admin_is_registered(String uid) async {
+    User? user = _auth.currentUser;
+
+    DocumentSnapshot sn = await adminhubref.doc(user!.uid).get();
+    if (sn.exists) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 
 
 
-  void signOutGoogle() async {
+static  Future<void> uploadadmininfo(String name,String orgname,String role,String phonenum) async {
+    User? user = _auth.currentUser;
+    await adminhubref.doc(user!.uid).set({
+      'admin_name': name,
+      "org_name": orgname,
+      "role": role,
+      "phone_num": phonenum,
+    });
+  }
+
+  static Future<void> signOutGoogle() async {
+    await _auth.signOut();
     await googleSignIn.signOut();
 
     print("User Sign Out");

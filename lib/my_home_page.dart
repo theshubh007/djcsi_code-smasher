@@ -1,3 +1,5 @@
+import 'package:auth_employee/Firebase_Services.dart';
+import 'package:auth_employee/login_page.dart';
 import 'package:auth_employee/screen/home_page.dart';
 import 'package:auth_employee/screen/list_of_employee.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     ListOfEmployee()
@@ -24,8 +26,24 @@ class _MyHomePageState extends State<MyHomePage> {
       _selectedIndex = index;
     });
   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Page'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Firebase_Serv.signOutGoogle();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const Loginpage()),
+                  (Route<dynamic> route) => false);
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
