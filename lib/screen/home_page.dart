@@ -1,8 +1,7 @@
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:images_picker/images_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,7 +23,9 @@ class _HomePageState extends State<HomePage> {
             children: [
               InkWell(
                 onTap: ()async{
-                  await picker.pickImage(source: ImageSource.camera);
+                  var status = await Permission.photos.status;
+                  print(status);
+                  await picker.pickImage(source: ImageSource.gallery);
                 },
                 child: Container(
                   // alignment: Alignment.,
