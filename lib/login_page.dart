@@ -1,5 +1,7 @@
 import 'package:action_slider/action_slider.dart';
+import 'package:auth_employee/Firebase_Services.dart';
 import 'package:auth_employee/my_home_page.dart';
+import 'package:auth_employee/screen/admin_info_page.dart';
 import 'package:flutter/material.dart';
 
 class Loginpage extends StatefulWidget {
@@ -16,43 +18,59 @@ class _LoginpageState extends State<Loginpage> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
         child: Scaffold(
-          body: Center(
-            child: Stack(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  color: Colors.blueGrey,
-                ),
-                // Image.asset("assets/homepage.png", fit: BoxFit.cover, height: height,),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 400.0),
-                  child: Center(
-                    child: ActionSlider.standard(
-                      width: 300.0,
-                      icon: const Icon(
-                        Icons.done,
-                      ),
-                      child: const Text('Slide To Confirm'),
-                      action: (controller) async {
-                        controller.loading();
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomePage()));                        // await Future.delayed(const Duration(seconds: 3));
-                        // FirebaseHelper.signInWithGoogle().then((value) async {
-                        //   controller.success();
-                        //   await Future.delayed(const Duration(seconds: 1));
-                        //
-                        // Get.to(() => const Role_Selectpage());
-                        // });
-                      },
-                    ),
-                  ),
-                ),
-              ],
+      body: Center(
+        child: Stack(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              color: Colors.blueGrey,
             ),
-          ),
-        ));
+            // Image.asset("assets/homepage.png", fit: BoxFit.cover, height: height,),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 400.0),
+              child: Center(
+                child: ActionSlider.standard(
+                  width: 300.0,
+                  icon: const Icon(
+                    Icons.done,
+                  ),
+                  child: const Text('Slide To Confirm'),
+                  action: (controller) async {
+                    controller.loading();
+                    // await Future.delayed(const Duration(seconds: 3));
+                    await Firebase_Serv.signInWithGoogle().then((value) async {
+                      controller.success();
+                      await Future.delayed(const Duration(seconds: 1));
+                      
+                      await Firebase_Serv.checkif_admin_is_registered(
+                              value.user!.uid)
+                          .then((value) {
+                        if (value == true) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MyHomePage()));
+                        } else {
+                          //go to forms to take admin info
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const Admin_info_page()));
+                        }
+                      });
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ));
   }
 }
 
