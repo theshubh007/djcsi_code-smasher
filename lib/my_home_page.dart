@@ -29,39 +29,40 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Firebase_Serv.signOutGoogle();
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const Loginpage()),
-                  (Route<dynamic> route) => false);
-            },
-            icon: const Icon(Icons.logout),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Home Page'),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         Firebase_Serv.signOutGoogle();
+      //         Navigator.of(context).pushAndRemoveUntil(
+      //             MaterialPageRoute(builder: (context) => const Loginpage()),
+      //             (Route<dynamic> route) => false);
+      //       },
+      //       icon: const Icon(Icons.logout),
+      //     ),
+      //   ],
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xff76B5C5),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home, size: 30,),
             label: 'Home',
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
+            icon: Icon(Icons.list, size: 30),
             label: 'List',
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.white,
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );
