@@ -1,6 +1,7 @@
 import 'package:action_slider/action_slider.dart';
 import 'package:auth_employee/my_home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({Key? key}) : super(key: key);
@@ -21,11 +22,12 @@ class _LoginpageState extends State<Loginpage> {
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  color: Colors.blueGrey,
+                  color: Colors.blueAccent.shade100,
                 ),
+                Lottie.network("https://assets10.lottiefiles.com/packages/lf20_coahzstz.json",alignment: Alignment.centerRight, height: height,width: width * .70 ),
                 // Image.asset("assets/homepage.png", fit: BoxFit.cover, height: height,),
                 const SizedBox(
-                  height: 20,
+                  height: 0,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 400.0),
@@ -35,7 +37,7 @@ class _LoginpageState extends State<Loginpage> {
                       icon: const Icon(
                         Icons.done,
                       ),
-                      child: const Text('Slide To Confirm'),
+                      child: const Text('Continue with google'),
                       action: (controller) async {
                         controller.loading();
                         Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomePage()));                        // await Future.delayed(const Duration(seconds: 3));
