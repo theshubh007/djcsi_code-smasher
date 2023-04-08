@@ -6,3 +6,10 @@ const anuphan = TextStyle(
   fontSize: 18,
   letterSpacing: 1.5
 );
+
+const formText = TextStyle(
+  color: Colors.black87,
+  fontFamily: "Noto",
+  fontSize: 18,
+  letterSpacing: 1
+);
