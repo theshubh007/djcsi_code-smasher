@@ -56,33 +56,55 @@ class Firebase_Serv {
 
   static Future<bool> check_employee_is_already_registered(
       String adharnum, String pannum) async {
-    final check =await allemployeehubref
+    final check = await allemployeehubref
         .where('adharcard_num', isEqualTo: adharnum)
         .where('pancard_num', isEqualTo: pannum)
         .get();
     if (check.docs.isEmpty) {
       return false;
-    }else{
+    } else {
       return true;
     }
   }
 
-  static Future<void> upload_employee_data(
+
+
+
+  static Future<void> upload_employee_data_bothplace(
       String name,
       String adhar_num,
       String pan_num,
-      int experience,
+      String experience,
       String expertice,
-      String imgurl,
-      String pancardnum) async {
-    await allemployeehubref.doc().set({
+    
+    ) async {
+
+    await allemployeehubref.doc(adhar_num).set({
       'name': name,
       'adharcard_num': adhar_num,
       'experience_year': experience,
       'expertice': experience,
-      'imageurl': imgurl,
-      'pancard_num': pancardnum,
+      
+      'pancard_num': pan_num,
     });
+
+    await adminhubref.doc(_auth.currentUser!.uid).collection('my_employees').doc(adhar_num).set({
+      'name': name,
+      'adharcard_num': adhar_num,
+      'experience_year': experience,
+      'expertice': experience,
+      
+      'pancard_num': pan_num,
+    });
+
+   
+  }
+
+  static Future<void> get_my_all_employees() async {
+    User? user = _auth.currentUser;
+    final myemployees =
+        await adminhubref.doc(user!.uid).collection('my_employees').get();
+   
   }
 
   static Future<void> signOutGoogle() async {
