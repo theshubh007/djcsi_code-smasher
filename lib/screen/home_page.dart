@@ -1,6 +1,8 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:images_picker/images_picker.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  final ImagePicker picker = ImagePicker();
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -20,8 +23,8 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: (){
-                  print("OK");
+                onTap: ()async{
+                  await picker.pickImage(source: ImageSource.camera);
                 },
                 child: Container(
                   // alignment: Alignment.,
@@ -35,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(Icons.add, size: 40,),
+                        Image.asset("assets/addPhoto.png", height: 85),
                         SizedBox(width: 18,),
                         Text("Add Photo", style: TextStyle(fontSize: 20),),
                       ],
@@ -61,9 +64,9 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(Icons.add, size: 40,),
-                        SizedBox(width: 10,),
-                        Text("Add Pancard Photo", style: TextStyle(fontSize: 20),),
+                        Image.asset("assets/aadharCard.png", height: 90),
+                        SizedBox(width: 9,),
+                        Text("Add Aadharcard Photo", style: TextStyle(fontSize: 18),),
                       ],
                     )
                 ),
@@ -87,13 +90,13 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(Icons.add, size: 40,),
+                      Image.asset("assets/panCard.png", height: 90),
                       SizedBox(width: 10,),
                       Text("Add Pancard Photo", style: TextStyle(fontSize: 20),),
                     ],
                   )
                 ),
-              )
+              ),
             ],
           ),
         )

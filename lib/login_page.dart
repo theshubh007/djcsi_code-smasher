@@ -46,28 +46,32 @@ class _LoginpageState extends State<Loginpage> {
               child: const Text('Slide To Confirm'),
               action: (controller) async {
                 controller.loading();
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyHomePage()));
                 // await Future.delayed(const Duration(seconds: 3));
-                await Firebase_Serv.signInWithGoogle().then((value) async {
-                  controller.success();
-                  await Future.delayed(const Duration(seconds: 1));
-
-                  await Firebase_Serv.checkif_admin_is_registered(
-                          value.user!.uid)
-                      .then((value) {
-                    if (value == true) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MyHomePage()));
-                    } else {
-                      //go to forms to take admin info
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Admin_info_page()));
-                    }
-                  });
-                });
+                // await Firebase_Serv.signInWithGoogle().then((value) async {
+                //   controller.success();
+                //   await Future.delayed(const Duration(seconds: 1));
+                //
+                //   await Firebase_Serv.checkif_admin_is_registered(
+                //           value.user!.uid)
+                //       .then((value) {
+                //     if (value == true) {
+                //       Navigator.pushReplacement(
+                //           context,
+                //           MaterialPageRoute(
+                //               builder: (context) => const MyHomePage()));
+                //     } else {
+                //       //go to forms to take admin info
+                //       Navigator.pushReplacement(
+                //           context,
+                //           MaterialPageRoute(
+                //               builder: (context) => const Admin_info_page()));
+                //     }
+                //   });
+                // });
               },
             ),
           ),
