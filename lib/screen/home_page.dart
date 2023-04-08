@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   File? img;
   final ImagePicker _picker = ImagePicker();
-  
+
   File? selectedImage;
   String base64Image = "";
 
