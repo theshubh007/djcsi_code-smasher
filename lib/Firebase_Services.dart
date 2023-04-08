@@ -41,11 +41,16 @@ class Firebase_Serv {
     }
   }
 
-  Future<void> uploadadmininfo() async {
+
+
+
+static  Future<void> uploadadmininfo(String name,String orgname,String role,String phonenum) async {
     User? user = _auth.currentUser;
     await adminhubref.doc(user!.uid).set({
-      'admin_name': 'dhrumit',
-      "org_name": "xyzorg",
+      'admin_name': name,
+      "org_name": orgname,
+      "role": role,
+      "phone_num": phonenum,
     });
   }
 

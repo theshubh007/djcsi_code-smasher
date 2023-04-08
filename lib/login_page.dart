@@ -44,18 +44,18 @@ class _LoginpageState extends State<Loginpage> {
                     await Firebase_Serv.signInWithGoogle().then((value) async {
                       controller.success();
                       await Future.delayed(const Duration(seconds: 1));
-                      
+
                       await Firebase_Serv.checkif_admin_is_registered(
                               value.user!.uid)
                           .then((value) {
                         if (value == true) {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const MyHomePage()));
                         } else {
                           //go to forms to take admin info
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
