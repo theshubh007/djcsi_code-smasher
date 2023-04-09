@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:auth_employee/Firebase_Services.dart';
 import 'package:auth_employee/login_page.dart';
@@ -5,6 +6,7 @@ import 'package:auth_employee/style/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -40,6 +42,16 @@ class _HomePageState extends State<HomePage> {
     } else {
       print('Grant Permission and try again');
     }
+  }
+
+  Future<String> _uploadImage(File image) async {
+    const url = 'http://dhrumit.pythonanywhere.com/img2';
+    final request = http.MultipartRequest('POST', Uri.parse(url));
+    request.files.add(await http.MultipartFile.fromPath('file1', image.path));
+    final response = await request.send();
+    final responseData = await response.stream.toBytes();
+    final responseString = String.fromCharCodes(responseData);
+    return responseString;
   }
 
   void clearcontroller() {
@@ -82,6 +94,46 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Column(
+                children: [
+                  if (img != null) Image.file(img!),
+                  if (img != null)
+                    ElevatedButton(
+                        onPressed: () async {
+                          final response = await _uploadImage(img!);
+                          final jsonResponse = jsonDecode(response);
+                          final similarityPercentage =
+                              jsonResponse['similarity_percentage'];
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  'Similarity percentage: $similarityPercentage'),
+                            ),
+                          );
+                        },
+                        child: const Text('Verify image')),
+                  if (img != null)
+                    ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            img = null;
+                          });
+                        },
+                        child: const Text('Clear Image')),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final pickedFile =
+                          await _picker.pickImage(source: ImageSource.gallery);
+                      if (pickedFile != null) {
+                        setState(() {
+                          img = File(pickedFile.path);
+                        });
+                      }
+                    },
+                    child: const Text('Select Image'),
+                  ),
+                ],
+              ),
               InkWell(
                 onTap: () async {
                   var status = await Permission.photos.status;
