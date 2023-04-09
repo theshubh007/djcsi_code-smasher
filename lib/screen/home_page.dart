@@ -94,46 +94,51 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                children: [
-                  if (img != null) Image.file(img!),
-                  if (img != null)
-                    ElevatedButton(
-                        onPressed: () async {
-                          final response = await _uploadImage(img!);
-                          final jsonResponse = jsonDecode(response);
-                          final similarityPercentage =
-                              jsonResponse['similarity_percentage'];
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  'Similarity percentage: $similarityPercentage'),
-                            ),
-                          );
-                        },
-                        child: const Text('Verify image')),
-                  if (img != null)
-                    ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            img = null;
-                          });
-                        },
-                        child: const Text('Clear Image')),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final pickedFile =
-                          await _picker.pickImage(source: ImageSource.gallery);
-                      if (pickedFile != null) {
-                        setState(() {
-                          img = File(pickedFile.path);
-                        });
-                      }
-                    },
-                    child: const Text('Select Image'),
-                  ),
-                ],
-              ),
+              // Column(
+              //   children: [
+              //     if (img != null) Image.file(img!),
+              //     if (img != null)
+              //       ElevatedButton(
+              //           onPressed: () async {
+              //             final response = await _uploadImage(img!);
+              //             final jsonResponse = jsonDecode(response);
+              //             final similarityPercentage =
+              //                 jsonResponse['similarity_percentage'];
+              //             ScaffoldMessenger.of(context).showSnackBar(
+              //               SnackBar(
+              //                 content: Text(
+              //                     'Similarity percentage: $similarityPercentage'),
+              //               ),
+              //             );
+              //             if(similarityPercentage>45){
+              //               formVisible = true;
+              //             }else{
+              //               formVisible = false;
+              //             }
+              //           },
+              //           child: const Text('Verify image')),
+              //     if (img != null)
+              //       ElevatedButton(
+              //           onPressed: () {
+              //             setState(() {
+              //               img = null;
+              //             });
+              //           },
+              //           child: const Text('Clear Image')),
+              //     ElevatedButton(
+              //       onPressed: () async {
+              //         final pickedFile =
+              //             await _picker.pickImage(source: ImageSource.gallery);
+              //         if (pickedFile != null) {
+              //           setState(() {
+              //             img = File(pickedFile.path);
+              //           });
+              //         }
+              //       },
+              //       child: const Text('Select Image'),
+              //     ),
+              //   ],
+              // ),
               InkWell(
                 onTap: () async {
                   var status = await Permission.photos.status;
@@ -259,13 +264,23 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(top: 30, right: 40, left: 40),
                 child: InkWell(
                   onTap: () {
-                    setState(() {
-                      if (!formVisible) {
+                    setState(()async{
+                      final response = await _uploadImage(img!);
+                      final jsonResponse = jsonDecode(response);
+                      final similarityPercentage =
+                      jsonResponse['similarity_percentage'];
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              'Similarity percentage: $similarityPercentage'),
+                        ),
+                      );
+                      if(similarityPercentage>45){
                         formVisible = true;
-                      } else {
+                      }else{
                         formVisible = false;
                       }
-                    });
+                    },);
                   },
                   child: Container(
                     decoration: BoxDecoration(
