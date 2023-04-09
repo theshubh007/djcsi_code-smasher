@@ -19,16 +19,16 @@ class _ListOfEmployeeState extends State<ListOfEmployee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: IconButton(
-      //     onPressed: () {
-      //       Navigator.pop(context);
-      //     },
-      //     icon: const Icon(Icons.arrow_back, color: Colors.white, size: 30),
-      //   ),
-      //   backgroundColor: Colors.transparent,
-      //   title: const Text('List of Your Employees'),
-      // ),
+      appBar: AppBar(
+        // leading: IconButton(
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        //   icon: const Icon(Icons.arrow_back, color: Colors.white, size: 30),
+        // ),
+        backgroundColor: const Color(0xff6096B4),
+        title: const Text('List of Your Employees'),
+      ),
       backgroundColor: const Color(0xff6096B4),
       body: SafeArea(
           child: Padding(

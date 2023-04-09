@@ -1,4 +1,3 @@
-import 'package:auth_employee/style/text_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +37,6 @@ class _Employee_detailsState extends State<Employee_details> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.eid,
-                style: headingTitle2,
-              ),
               FutureBuilder(
                   future: allemployeehubref
                       .doc(widget.eid)
@@ -58,10 +53,12 @@ class _Employee_detailsState extends State<Employee_details> {
                               tileColor:
                                   const Color.fromARGB(255, 221, 221, 221),
                               title: Text(
-                                snapshot.data!.docs[index]['org_name'],
+                                snapshot.data!.docs[index]['org_name']
+                                    .toString()
+                                    .toUpperCase(),
                                 style: const TextStyle(
                                     fontSize: 24,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontWeight: FontWeight.bold),
                               ),
                               subtitle: Column(
@@ -76,7 +73,7 @@ class _Employee_detailsState extends State<Employee_details> {
                                           color: Color(0xff18939b))),
                                   Text(snapshot.data!.docs[index]['reason'],
                                       style: const TextStyle(
-                                          fontSize: 18, color: Colors.white)),
+                                          fontSize: 18, color: Colors.black)),
                                   SizedBox(
                                       height: 50,
                                       child: rating == 1
