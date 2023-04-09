@@ -1,4 +1,5 @@
 import 'package:auth_employee/screen/employee_details.dart';
+import 'package:auth_employee/style/text_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,37 +19,42 @@ class _ListOfEmployeeState extends State<ListOfEmployee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 30),
-        ),
-        backgroundColor: Colors.transparent,
-        title: const Text('List of Your Employees'),
-      ),
-      backgroundColor: const Color(0xff191a1f),
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //     icon: const Icon(Icons.arrow_back, color: Colors.white, size: 30),
+      //   ),
+      //   backgroundColor: Colors.transparent,
+      //   title: const Text('List of Your Employees'),
+      // ),
+      backgroundColor: const Color(0xff6096B4),
       body: SafeArea(
-          child: FutureBuilder(
-              future: FirebaseFirestore.instance
-                  .collection('Adminhub')
-                  .doc(user!.uid)
-                  .collection('my_employees')
-                  .get(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot documentSnapshot =
-                          snapshot.data!.docs[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
+          child: Padding(
+        padding: const EdgeInsets.only(top: 26.0),
+        child: FutureBuilder(
+            future: FirebaseFirestore.instance
+                .collection('Adminhub')
+                .doc(user!.uid)
+                .collection('my_employees')
+                .get(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot documentSnapshot =
+                        snapshot.data!.docs[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        color: Colors.transparent,
+                        elevation: 10,
                         child: Container(
-                            height: 80,
+                            height: 90,
                             decoration: BoxDecoration(
-                              color: const Color(0xff31343b),
+                              color: Colors.lightBlue.shade100,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Row(
@@ -60,13 +66,10 @@ class _ListOfEmployeeState extends State<ListOfEmployee> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 14, vertical: 4),
+                                            horizontal: 14, vertical: 1),
                                         child: Text(
                                           documentSnapshot['name'],
-                                          style: const TextStyle(
-                                              fontSize: 24,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
+                                          style: headingTitle,
                                         ),
                                       ),
                                       Padding(
@@ -74,16 +77,14 @@ class _ListOfEmployeeState extends State<ListOfEmployee> {
                                             horizontal: 14, vertical: 0),
                                         child: Text(
                                             documentSnapshot['adharcard_num'],
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white)),
+                                            style: headingTitle2),
                                       ),
                                     ],
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 14, vertical: 0),
+                                      horizontal: 4, vertical: 0),
                                   child: IconButton(
                                     onPressed: () {
                                       showDialog<String>(
@@ -94,11 +95,15 @@ class _ListOfEmployeeState extends State<ListOfEmployee> {
                                                 (BuildContext context,
                                                     setState) {
                                               return AlertDialog(
-                                                backgroundColor: Colors.white,
+                                                backgroundColor:
+                                                    const Color.fromARGB(
+                                                        255, 125, 179, 208),
                                                 title: const Text(
-                                                  'Enter your Feedback for employee',
-                                                  style:
-                                                      TextStyle(fontSize: 25),
+                                                  'Enter your Feedback for Employee',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 20,
+                                                      fontFamily: "Noto"),
                                                 ),
                                                 content: Column(
                                                   children: [
@@ -280,11 +285,19 @@ class _ListOfEmployeeState extends State<ListOfEmployee> {
                                                     onPressed: () =>
                                                         Navigator.pop(
                                                             context, 'Cancel'),
-                                                    child: const Text('Cancel'),
+                                                    child: const Text(
+                                                      'Cancel',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
                                                   ),
                                                   TextButton(
                                                     onPressed: () async {},
-                                                    child: const Text('OK'),
+                                                    child: const Text(
+                                                      'OK',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
                                                   ),
                                                 ],
                                               );
@@ -302,7 +315,7 @@ class _ListOfEmployeeState extends State<ListOfEmployee> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 0),
+                                      horizontal: 2, vertical: 0),
                                   child: IconButton(
                                       onPressed: () {
                                         Navigator.push(
@@ -324,24 +337,26 @@ class _ListOfEmployeeState extends State<ListOfEmployee> {
                                 )
                               ],
                             )),
-                      );
-                      // return ListTile(
-                      //   title: Text(documentSnapshot['name']),
-                      //   subtitle: Text(documentSnapshot['adharcard_num']),
-                      //   trailing: IconButton(
-                      //       onPressed: () {},
-                      //       icon: const Icon(
-                      //         Icons.near_me,
-                      //         color: Colors.grey,
-                      //       )),
-                      // );
-                    },
-                  );
-                }
-                return const Center(
-                  child: CircularProgressIndicator(),
+                      ),
+                    );
+                    // return ListTile(
+                    //   title: Text(documentSnapshot['name']),
+                    //   subtitle: Text(documentSnapshot['adharcard_num']),
+                    //   trailing: IconButton(
+                    //       onPressed: () {},
+                    //       icon: const Icon(
+                    //         Icons.near_me,
+                    //         color: Colors.grey,
+                    //       )),
+                    // );
+                  },
                 );
-              })),
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
+      )),
     );
   }
 }
