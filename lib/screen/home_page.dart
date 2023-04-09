@@ -272,7 +272,7 @@ class _HomePageState extends State<HomePage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                              'Similarity percentage: $similarityPercentage'),
+                              'Similarity Percentage: $similarityPercentage'),
                         ),
                       );
                       if(similarityPercentage>40){
