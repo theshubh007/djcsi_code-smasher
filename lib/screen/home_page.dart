@@ -275,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                               'Similarity percentage: $similarityPercentage'),
                         ),
                       );
-                      if(similarityPercentage>45){
+                      if(similarityPercentage>40){
                         formVisible = true;
                       }else{
                         formVisible = false;
