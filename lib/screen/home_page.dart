@@ -296,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("Employee name",
+                              const Text("Employee Name",
                                   textAlign: TextAlign.left, style: formText),
                               const SizedBox(
                                 height: 2,
